@@ -29,21 +29,8 @@ public class Authority {
     @GeneratedValue
     private Long authorityId;
 
-    private String role;
+    private String permission;
 
     @ManyToMany(mappedBy = "authorities")
-    private Set<User> users;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Authority authority = (Authority) o;
-        return role.equals(authority.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(role);
-    }
+    private Set<Role> roles;
 }

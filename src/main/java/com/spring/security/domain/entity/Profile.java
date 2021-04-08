@@ -1,52 +1,45 @@
 package com.spring.security.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.spring.security.domain.entity.security.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 /**
  * Created by IntelliJ IDEA
  * User: Balaji Varadharajan
- * Class/Interface/Enum Name: Customer
+ * Class/Interface/Enum Name: Profile
  * Inside the package - com.spring.security.domain.entity
- * Created Date: 3/15/2021
- * Created Time: 6:07 AM
+ * Created Date: 3/29/2021
+ * Created Time: 6:26 AM
  **/
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class Customer {
+public class Profile {
 
     @Id
     @GeneratedValue
-    private Long customerId;
+    private Long profileId;
 
-    private String firstName;
+    private String paymentName;
 
-    private String lastName;
-
-    private LocalDate dateOfBirth;
-
-    @OneToOne(mappedBy = "customer",fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private Profile profile;
+    private String favoriteVacationDestination;
 
     @OneToOne
     @JsonBackReference
-    private User user;
+    private Customer customer;
 
     @CreationTimestamp
     private LocalDateTime createdDate;

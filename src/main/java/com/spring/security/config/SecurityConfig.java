@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,6 +25,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  **/
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -67,13 +69,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests(
                 authorize -> {
                     authorize.
-                            antMatchers("/h2-console/**").permitAll().
-                            mvcMatchers(HttpMethod.POST,
-                                    "/api/v1/security/customer/**").hasRole("ADMIN")
-                            .mvcMatchers(HttpMethod.GET,
-                                    "/api/v1/security/customer").permitAll();
+                            antMatchers("/h2-console/**").permitAll();
+                            //.mvcMatchers(HttpMethod.POST,
+                                    //"/api/v1/security/customer/**").hasRole("ADMIN")
+                            //.mvcMatchers(HttpMethod.GET,
+                                    //"/api/v1/security/customer/**").hasAnyRole("ADMIN","CUSTOMER");
+                            //.mvcMatchers(HttpMethod.POST,
+                            //"/api/v1/security/product/**").hasRole("ADMIN")
+                           // .mvcMatchers(HttpMethod.GET,
+                              //      "/api/v1/security/product/**").hasAnyRole("ADMIN","CUSTOMER");
                 }
-        ).authorizeRequests().anyRequest().authenticated()
+        ).authorizeRequests().anyRequest().authenticated().and().httpBasic()
                 .and().csrf().disable();
         httpSecurity.headers().frameOptions().sameOrigin();
 
